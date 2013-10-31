@@ -128,6 +128,14 @@ Canvas.prototype.adjust = function(uie)
 		uie.style.top = iy + "px";
 }
 
+Canvas.prototype.adjustPartials = function(random)
+{
+	for (var i in this.partials) {
+		var part = this.partials[i];
+		this.adjust(part.uie.uie, random);
+	}
+}
+
 Canvas.prototype.collisionDetect = function(target)
 {
 	var collers = new Array();

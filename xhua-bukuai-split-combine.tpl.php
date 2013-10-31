@@ -69,6 +69,9 @@ var ptsMgr = new PartialManager(cfan.partials);
 var canvas = new Canvas(document.getElementById("canvas"));
 canvas.decorate();
 canvas.paint(ptsMgr.getLowestPartials());
+jQuery(window).load(function () {
+	canvas.adjustPartials(false);
+});
 
 </script>
 
