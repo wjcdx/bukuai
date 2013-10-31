@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the xhua_bukuai module.
+ */
+function xhua_bukuai_install() {
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * @ingroup xhua_bukuai
+ */
+function xhua_bukuai_uninstall() {
+}

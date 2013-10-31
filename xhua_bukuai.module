@@ -1,0 +1,75 @@
+<?php
+/**
+ * @file
+ * Module file for xhua_bukuai.
+ */
+
+/**
+ * @defgroup xhua_bukuai Example: Block
+ * @ingroup examples
+ * @{
+ * Demonstrates code creation of blocks.
+ *
+ * This is an example outlining how a module can define blocks that can be
+ * displayed on various pages of a site, or how to alter blocks provided by
+ * other modules.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Provides a default page to explain what this module does.
+ */
+function xhua_bukuai_menu() {
+  $items['xhua/split'] = array(
+    'page callback' => 'xhua_bukuai_split_page',
+    'access callback' => TRUE,
+    'title' => '',
+  );
+  return $items;
+}
+
+function xhua_bukuai_theme()
+{
+  return array(
+    'xhua_bukuai_split_combine'  => array(
+		'render element' => 'element',
+		'template' => 'xhua-bukuai-split-combine',
+    ),
+  );
+}
+
+/**
+ * Simple page function to explain what the block example is about.
+ */
+function xhua_bukuai_split_page() {
+
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/drag&drop.js' , array('weight' => 1));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/CombineEffect.js' , array('weight' => 2));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Combiner.js' , array('weight' => 3));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Displayer.js' , array('weight' => 4));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Character.js' , array('weight' => 5));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Partial.js' , array('weight' => 6));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/SplitEffect.js' , array('weight' => 7));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Splitter.js' , array('weight' => 8));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/UiElement.js' , array('weight' => 9));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/PartialManager.js' , array('weight' => 10));
+	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Canvas.js' , array('weight' => 11));
+
+  $page = array(
+    '#theme' => 'xhua_bukuai_split_combine',
+    '#title' => 'Im the title',
+    '#content' => 'Im the content',
+  );
+  return $page;
+}
+
+function template_preprocess_xhua_bukuai_split_combine(&$variables)
+{
+	global $base_path;
+	$variables['pwd'] = $base_path . drupal_get_path('module', 'xhua_bukuai') . '/images/';
+}
+
+/**
+ * @} End of "defgroup xhua_bukuai".
+ */
