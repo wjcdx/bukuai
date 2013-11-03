@@ -36,24 +36,13 @@ function getImageUiE(src)
 }
 
 var i = 0;
-var cxing = new Character("1");
-cxing.partials[i++] = new Partial('1', 2, getImageUiE(pwd + "/xing/xing.png"));
-cxing.partials[i++] = new Partial('1.1', 2, getImageUiE(pwd + "/xing/xing-s.png"));
-cxing.partials[i++] = new Partial('1.1.1', 0, getImageUiE(pwd + "/xing/xing-sl.png"));
-cxing.partials[i++] = new Partial('1.1.2', 0, getImageUiE(pwd + "/xing/xing-sr.png"));
-cxing.partials[i++] = new Partial('1.2', 0, getImageUiE(pwd + "/xing/xing-x.png"));
+var cfan = new Character("1");
 
-i = 0;
-var cfan = new Character("2");
-cfan.partials[i++] = new Partial('2', 2, getImageUiE(pwd + "/fan/fan.png"));
-cfan.partials[i++] = new Partial('2.1', 3, getImageUiE(pwd + "/fan/fan-s.png"));
-cfan.partials[i++] = new Partial('2.1.1', 0, getImageUiE(pwd + "/fan/fan-sl.png"));
-cfan.partials[i++] = new Partial('2.1.2', 2, getImageUiE(pwd + "/fan/fan-sm.png"));
-cfan.partials[i++] = new Partial('2.1.2.1', 0, getImageUiE(pwd + "/fan/fan-sms.png"));
-cfan.partials[i++] = new Partial('2.1.2.2', 0, getImageUiE(pwd + "/fan/fan-smx.png"));
-cfan.partials[i++] = new Partial('2.1.3', 0, getImageUiE(pwd + "/fan/fan-sr.png"));
-cfan.partials[i++] = new Partial('2.2', 0, getImageUiE(pwd + "/fan/fan-x.png"));
-
+<?php foreach($parts as $key => $value) { ?>
+cfan.partials[i++] = new Partial('<?php echo $key; ?>',
+		<?php echo $value['chds'] ?>,
+		getImageUiE(pwd + "/chars/fan/<?php echo $value['no']; ?>.png"));
+<?php } ?>
 
 var ptsMgr = new PartialManager(cfan.partials);
 
