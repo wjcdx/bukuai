@@ -79,8 +79,9 @@ function xhua_bukuai_tree_load($entry = array())
  * Provides a default page to explain what this module does.
  */
 function xhua_bukuai_menu() {
-  $items['xhua/split'] = array(
-    'page callback' => 'xhua_bukuai_split_page',
+  $items['xhua/split/%'] = array(
+		'page callback' => 'xhua_bukuai_split_page',
+		'page arguments' => array(2),
     'access callback' => TRUE,
     'title' => '',
   );
@@ -100,7 +101,7 @@ function xhua_bukuai_theme()
 /**
  * Simple page function to explain what the block example is about.
  */
-function xhua_bukuai_split_page() {
+function xhua_bukuai_split_page($no = 1) {
 
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/drag&drop.js' , array('weight' => 1));
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/CombineEffect.js' , array('weight' => 2));
@@ -114,15 +115,17 @@ function xhua_bukuai_split_page() {
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/PartialManager.js' , array('weight' => 10));
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Canvas.js' , array('weight' => 11));
 
+	if ($no == 0) {
+		$no = rand(1, 1);
+	}
 
 	$conds = array(
-		'no' => 1,
+		'no' => $no,
 	);
 
 	$entries = xhua_bukuai_tree_load($conds);
 	$tree = $entries[0];
 
-	$no = $tree->no;
 	$tree_str = $tree->tree;
 
 	$tree_ary = _xhua_bukuai_fmtstr_array($tree_str);
