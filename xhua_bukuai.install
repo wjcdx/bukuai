@@ -7,6 +7,7 @@ function xhua_bukuai_install() {
 	$fields = array(
     'no'    => '1',
     'partial'    => '樊',
+    'full'    => 1,
     'path'    => 'chars/1.png',
     'description'    => '樊, 姓',
   );  
@@ -17,6 +18,7 @@ function xhua_bukuai_install() {
 	$fields = array(
     'no'    => '2',
     'partial'    => '樊, 上部',
+    'full'    => 0,
     'path'    => 'chars/2.png',
     'description'    => '樊, 姓',
   );  
@@ -27,6 +29,7 @@ function xhua_bukuai_install() {
 	$fields = array(
     'no'    => '3',
     'partial'    => '大',
+    'full'    => 1,
     'path'    => 'chars/3.png',
     'description'    => '大小',
   );  
@@ -37,6 +40,7 @@ function xhua_bukuai_install() {
 	$fields = array(
     'no'    => '4',
     'partial'    => '木',
+    'full'    => 1,
     'path'    => 'chars/4.png',
     'description'    => '树木',
   );  
@@ -47,6 +51,7 @@ function xhua_bukuai_install() {
 	$fields = array(
     'no'    => '5',
     'partial'    => '爻',
+    'full'    => 1,
     'path'    => 'chars/5.png',
     'description'    => '卦爻',
   );  
@@ -57,6 +62,7 @@ function xhua_bukuai_install() {
 	$fields = array(
     'no'    => '6',
     'partial'    => '区，里面',
+    'full'    => 0,
     'path'    => 'chars/6.png',
     'description'    => '叉，点',
   );  
@@ -66,7 +72,7 @@ function xhua_bukuai_install() {
 
 	$fields = array(
     'no'    => '1',
-    'children'     => '[2,3,4,5,6];',
+    'children'     => '[2,3,4,5,6]',
     'tree'     => '[2:[4,5:[6,6],4],3]',
   );  
   db_insert('xhua_bukuai_tree')
@@ -104,6 +110,12 @@ function xhua_bukuai_schema() {
 				'not null' => TRUE,
 				'default' => '',
 				'description' => 'Chinese char of the node.',
+			),
+			'full' => array(
+				'type' => 'int',
+				'not null' => TRUE,
+				'default' => 1,
+				'description' => 'is the node a full-char or just a part of a char.',
 			),
 			'path' => array(
 				'type' => 'varchar',
