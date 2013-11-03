@@ -41,7 +41,7 @@ var cfan = new Character("1");
 <?php foreach($parts as $key => $value) { ?>
 cfan.partials[i++] = new Partial('<?php echo $key; ?>',
 		<?php echo $value['chds'] ?>,
-		getImageUiE(pwd + "/chars/fan/<?php echo $value['no']; ?>.png"));
+		getImageUiE(pwd + "/chars/<?php echo $value['no']; ?>.png"));
 <?php } ?>
 
 var ptsMgr = new PartialManager(cfan.partials);
@@ -52,6 +52,7 @@ var ptsMgr = new PartialManager(cfan.partials);
 <div id="canvas" style="border:1px solid blue; width: 600px; height: 400px; margin: 0 auto 0 auto; position: relative;">
 </div>
 <a href="javascript:canvas.splitOnce();">Split</a>
+<a href="<?php echo $next; ?>">Next</a>
 
 <script type="text/javascript">
 

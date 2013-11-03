@@ -63,6 +63,14 @@ function xhua_bukuai_entry_load($table, $entry = array()) {
   return $select->execute()->fetchAll();
 }
 
+function xhua_bukuai_entry_count($table) {
+  // Read all fields from the table.
+  $select = db_select($table, 't');
+  $select->fields('t');
+
+  return $select->execute()->rowCount();
+}
+
 function xhua_bukuai_node_load($entry = array())
 {
 	return xhua_bukuai_entry_load('xhua_bukuai_node', $entry);
@@ -73,15 +81,25 @@ function xhua_bukuai_tree_load($entry = array())
 	return xhua_bukuai_entry_load('xhua_bukuai_tree', $entry);
 }
 
+function xhua_bukuai_node_count()
+{
+	return xhua_bukuai_entry_count('xhua_bukuai_node');
+}
+
+function xhua_bukuai_tree_count()
+{
+	return xhua_bukuai_entry_count('xhua_bukuai_tree');
+}
+
 /**
  * Implements hook_menu().
  *
  * Provides a default page to explain what this module does.
  */
 function xhua_bukuai_menu() {
-  $items['xhua/split/%'] = array(
+  $items['xhua/split/%/%'] = array(
 		'page callback' => 'xhua_bukuai_split_page',
-		'page arguments' => array(2),
+		'page arguments' => array(2,3),
     'access callback' => TRUE,
     'title' => '',
   );
@@ -99,9 +117,22 @@ function xhua_bukuai_theme()
 }
 
 /**
+ * $count must be bigger than 0.
+ */
+function _xhua_bukuai_next_id($id, $count)
+{
+	$id = ($id + 1) % $count;
+
+	if ($id == 0)
+		$id = $count;
+
+	return $id;
+}
+
+/**
  * Simple page function to explain what the block example is about.
  */
-function xhua_bukuai_split_page($no = 1) {
+function xhua_bukuai_split_page($cat = 'id', $no = 1) {
 
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/drag&drop.js' , array('weight' => 1));
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/CombineEffect.js' , array('weight' => 2));
@@ -115,27 +146,43 @@ function xhua_bukuai_split_page($no = 1) {
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/PartialManager.js' , array('weight' => 10));
 	drupal_add_js(drupal_get_path('module', 'xhua_bukuai') . '/js/Canvas.js' , array('weight' => 11));
 
-	if ($no == 0) {
-		$no = rand(1, 1);
-	}
-
-	$conds = array(
-		'no' => $no,
-	);
-
-	$entries = xhua_bukuai_tree_load($conds);
-	$tree = $entries[0];
-
-	$tree_str = $tree->tree;
-
-	$tree_ary = _xhua_bukuai_fmtstr_array($tree_str);
-
 	$parts = array();
-	_xhua_bukuai_flat_tree('1', $no, $tree_ary, $parts);
+	$next = url('xhua/split/id/0');
+	$count = xhua_bukuai_tree_count();
+	$conds = array();
+	$field = 'no';
+
+	if ($count > 0) {
+
+		if ($cat == 'no') {
+			$field = 'no';
+		} else {
+			$field = 'pid';
+		}
+
+		if ($no == 0) {
+			$field = 'pid';
+			$no = rand(1, $count);
+		}
+		$conds[$field] = $no;
+
+		$entries = xhua_bukuai_tree_load($conds);
+		$tree = $entries[0];
+
+		$id = $tree->pid;
+		$no = $tree->no;
+		$tree_str = $tree->tree;
+
+		$next = url('xhua/split/id/' . _xhua_bukuai_next_id($id, $count));
+
+		$tree_ary = _xhua_bukuai_fmtstr_array($tree_str);
+		_xhua_bukuai_flat_tree('1', $no, $tree_ary, $parts);
+	}
 
   $page = array(
     '#theme' => 'xhua_bukuai_split_combine',
     '#parts' => $parts,
+    '#next' => $next,
   );
   return $page;
 }
@@ -145,6 +192,7 @@ function template_preprocess_xhua_bukuai_split_combine(&$variables)
 	global $base_path;
 	$variables['pwd'] = $base_path . drupal_get_path('module', 'xhua_bukuai') . '/';
 	$variables['parts'] = $variables['element']['#parts'];
+	$variables['next'] = $variables['element']['#next'];
 }
 
 /**
