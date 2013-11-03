@@ -101,7 +101,7 @@ function xhua_bukuai_menu() {
 		'page callback' => 'xhua_bukuai_split_page',
 		'page arguments' => array(2,3),
     'access callback' => TRUE,
-    'title' => '',
+    'title' => 'Char S&C',
   );
   return $items;
 }
@@ -148,7 +148,7 @@ function xhua_bukuai_split_page($cat = 'id', $no = 1) {
 
 	$parts = array();
 	$next = url('xhua/split/id/0');
-	$count = 0;//xhua_bukuai_tree_count();
+	$count = xhua_bukuai_tree_count();
 
 	if ($count > 0) {
 
