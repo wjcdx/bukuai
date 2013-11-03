@@ -148,11 +148,12 @@ function xhua_bukuai_split_page($cat = 'id', $no = 1) {
 
 	$parts = array();
 	$next = url('xhua/split/id/0');
-	$count = xhua_bukuai_tree_count();
-	$conds = array();
-	$field = 'no';
+	$count = 0;//xhua_bukuai_tree_count();
 
 	if ($count > 0) {
+
+		$field = 'no';
+		$conds = array();
 
 		if ($cat == 'no') {
 			$field = 'no';
