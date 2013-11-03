@@ -50,7 +50,7 @@ function _xhua_bukuai_flat_tree($prefix = '', $no = 1, $ary = array(), &$kvs)
   }
 }
 
-function xhua_bukuai_entry_load($table, $entry = array()) {
+function _xhua_bukuai_entry_load($table, $entry = array()) {
   // Read all fields from the table.
   $select = db_select($table, 't');
   $select->fields('t');
@@ -63,7 +63,7 @@ function xhua_bukuai_entry_load($table, $entry = array()) {
   return $select->execute()->fetchAll();
 }
 
-function xhua_bukuai_entry_count($table) {
+function _xhua_bukuai_entry_count($table) {
   // Read all fields from the table.
   $select = db_select($table, 't');
   $select->fields('t');
@@ -71,24 +71,24 @@ function xhua_bukuai_entry_count($table) {
   return $select->execute()->rowCount();
 }
 
-function xhua_bukuai_node_load($entry = array())
+function _xhua_bukuai_node_load($entry = array())
 {
-	return xhua_bukuai_entry_load('xhua_bukuai_node', $entry);
+	return _xhua_bukuai_entry_load('xhua_bukuai_node', $entry);
 }
 
-function xhua_bukuai_tree_load($entry = array())
+function _xhua_bukuai_tree_load($entry = array())
 {
-	return xhua_bukuai_entry_load('xhua_bukuai_tree', $entry);
+	return _xhua_bukuai_entry_load('xhua_bukuai_tree', $entry);
 }
 
-function xhua_bukuai_node_count()
+function _xhua_bukuai_node_count()
 {
-	return xhua_bukuai_entry_count('xhua_bukuai_node');
+	return _xhua_bukuai_entry_count('xhua_bukuai_node');
 }
 
-function xhua_bukuai_tree_count()
+function _xhua_bukuai_tree_count()
 {
-	return xhua_bukuai_entry_count('xhua_bukuai_tree');
+	return _xhua_bukuai_entry_count('xhua_bukuai_tree');
 }
 
 /**
@@ -101,7 +101,7 @@ function xhua_bukuai_menu() {
 		'page callback' => 'xhua_bukuai_split_page',
 		'page arguments' => array(2,3),
     'access callback' => TRUE,
-    'title' => 'Char S&C',
+    'title' => '',
   );
   return $items;
 }
@@ -148,7 +148,7 @@ function xhua_bukuai_split_page($cat = 'id', $no = 1) {
 
 	$parts = array();
 	$next = url('xhua/split/id/0');
-	$count = xhua_bukuai_tree_count();
+	$count = _xhua_bukuai_tree_count();
 
 	if ($count > 0) {
 
@@ -167,7 +167,7 @@ function xhua_bukuai_split_page($cat = 'id', $no = 1) {
 		}
 		$conds[$field] = $no;
 
-		$entries = xhua_bukuai_tree_load($conds);
+		$entries = _xhua_bukuai_tree_load($conds);
 		$tree = $entries[0];
 
 		$id = $tree->pid;
