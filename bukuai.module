@@ -5,105 +5,12 @@
  */
 
 /**
- * @defgroup bukuai Example: Block
- * @ingroup examples
- * @{
- * Demonstrates code creation of blocks.
- *
- * This is an example outlining how a module can define blocks that can be
- * displayed on various pages of a site, or how to alter blocks provided by
- * other modules.
- */
-
-function _bukuai_fmtstr_array($str = '')
-{
-	if (strlen($str) == 0) {
-		return array();
-	}
-	$str = str_replace('[', 'array(', $str);
-	$str = str_replace(']', ')', $str);
-	$str = str_replace(':', '=>', $str);
-	$str = 'return ' . $str . ';';
-	return eval($str);
-}
-
-function _bukuai_fill_kvs($prefix = '', $no = 1, $chds = 0, &$kvs)
-{
-  $kvs[$prefix] = array();
-  $kvs[$prefix]['no'] = $no;
-  $kvs[$prefix]['chds'] = $chds;
-}
-
-function _bukuai_flat_tree($prefix = '', $no = 1, $ary = array(), &$kvs)
-{
-  _bukuai_fill_kvs($prefix, $no, count($ary), $kvs);
-
-  $i = 1;
-  foreach($ary as $key => $value) {
-    if (is_array($value)) {
-      _bukuai_fill_kvs($prefix . '.' . $i, $key, count($value), $kvs);
-      _bukuai_flat_tree($prefix . '.' . $i, $key, $value, $kvs);
-    } else {
-      _bukuai_fill_kvs($prefix . '.' . $i, $value, 0, $kvs);
-    }
-    $i++;
-  }
-}
-
-function _bukuai_entry_load($table, $entry = array()) {
-  // Read all fields from the table.
-  $select = db_select($table, 't');
-  $select->fields('t');
-
-  // Add each field and value as a condition to this query.
-  foreach ($entry as $field => $value) {
-    $select->condition($field, $value);
-  }
-  // Return the result in object format.
-  return $select->execute()->fetchAll();
-}
-
-function _bukuai_entry_count($table) {
-  // Read all fields from the table.
-  $select = db_select($table, 't');
-  $select->fields('t');
-
-  return $select->execute()->rowCount();
-}
-
-function _bukuai_node_load($entry = array())
-{
-	return _bukuai_entry_load('bukuai_node', $entry);
-}
-
-function _bukuai_tree_load($entry = array())
-{
-	return _bukuai_entry_load('bukuai_tree', $entry);
-}
-
-function _bukuai_node_count()
-{
-	return _bukuai_entry_count('bukuai_node');
-}
-
-function _bukuai_tree_count()
-{
-	return _bukuai_entry_count('bukuai_tree');
-}
-
-/**
  * Implements hook_menu().
  *
  * Provides a default page to explain what this module does.
  */
 function bukuai_menu() {
-  $items['xhua/split/%/%'] = array(
-		'page callback' => 'bukuai_split_page',
-		'page arguments' => array(2,3),
-    'access callback' => TRUE,
-    'title' => '',
-  );
-  return $items;
+  return array();
 }
 
 function bukuai_theme()
@@ -111,81 +18,9 @@ function bukuai_theme()
   return array(
     'bukuai_split_combine'  => array(
 		'render element' => 'element',
-		'template' => 'xhua-bukuai-split-combine',
+		'template' => 'bukuai-split-combine',
     ),
   );
-}
-
-/**
- * $count must be bigger than 0.
- */
-function _bukuai_next_id($id, $count)
-{
-	$id = ($id + 1) % $count;
-
-	if ($id == 0)
-		$id = $count;
-
-	return $id;
-}
-
-/**
- * Simple page function to explain what the block example is about.
- */
-function bukuai_split_page($cat = 'id', $no = 1) {
-
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/drag&drop.js' , array('weight' => 1));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/CombineEffect.js' , array('weight' => 2));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/Combiner.js' , array('weight' => 3));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/Displayer.js' , array('weight' => 4));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/Character.js' , array('weight' => 5));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/Partial.js' , array('weight' => 6));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/SplitEffect.js' , array('weight' => 7));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/Splitter.js' , array('weight' => 8));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/UiElement.js' , array('weight' => 9));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/PartialManager.js' , array('weight' => 10));
-	drupal_add_js(drupal_get_path('module', 'bukuai') . '/js/Canvas.js' , array('weight' => 11));
-
-	$parts = array();
-	$next = url('xhua/split/id/0');
-	$count = _bukuai_tree_count();
-
-	if ($count > 0) {
-
-		$field = 'no';
-		$conds = array();
-
-		if ($cat == 'no') {
-			$field = 'no';
-		} else {
-			$field = 'pid';
-		}
-
-		if ($no == 0) {
-			$field = 'pid';
-			$no = rand(1, $count);
-		}
-		$conds[$field] = $no;
-
-		$entries = _bukuai_tree_load($conds);
-		$tree = $entries[0];
-
-		$id = $tree->pid;
-		$no = $tree->no;
-		$tree_str = $tree->tree;
-
-		$next = url('xhua/split/id/' . _bukuai_next_id($id, $count));
-
-		$tree_ary = _bukuai_fmtstr_array($tree_str);
-		_bukuai_flat_tree('1', $no, $tree_ary, $parts);
-	}
-
-  $page = array(
-    '#theme' => 'bukuai_split_combine',
-    '#parts' => $parts,
-    '#next' => $next,
-  );
-  return $page;
 }
 
 function template_preprocess_bukuai_split_combine(&$variables)
