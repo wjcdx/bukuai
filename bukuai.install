@@ -1,9 +1,9 @@
 <?php
 /**
  * @file
- * Install, update and uninstall functions for the xhua_bukuai module.
+ * Install, update and uninstall functions for the bukuai module.
  */
-function xhua_bukuai_install() {
+function bukuai_install() {
 
 	$fields = array(
     'no'    => 1,
@@ -12,7 +12,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/1.png',
     'description'    => '樊, 姓',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -23,7 +23,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/2.png',
     'description'    => '樊, 姓',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -34,7 +34,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/3.png',
     'description'    => '大小',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -45,7 +45,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/4.png',
     'description'    => '树木',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -56,7 +56,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/5.png',
     'description'    => '卦爻',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -67,7 +67,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/6.png',
     'description'    => '叉，点',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -78,7 +78,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/7.png',
     'description'    => '构型',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -89,7 +89,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/8.png',
     'description'    => '刑法',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -100,7 +100,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/9.png',
     'description'    => '土地',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -111,7 +111,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/10.png',
     'description'    => '土地',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -122,7 +122,7 @@ function xhua_bukuai_install() {
     'path'    => 'chars/11.png',
     'description'    => '利刀旁',
   );
-  db_insert('xhua_bukuai_node')
+  db_insert('bukuai_node')
     ->fields($fields)
     ->execute();
 
@@ -131,7 +131,7 @@ function xhua_bukuai_install() {
     'children' => '[2,3,4,5,6]',
     'tree'     => '[2:[4,5:[6,6],4],3]',
   );  
-  db_insert('xhua_bukuai_tree')
+  db_insert('bukuai_tree')
     ->fields($fields)
     ->execute();
 
@@ -140,7 +140,7 @@ function xhua_bukuai_install() {
     'children' => '[8,9,10,11]',
     'tree'     => '[8:[10,11],9]',
   );
-  db_insert('xhua_bukuai_tree')
+  db_insert('bukuai_tree')
     ->fields($fields)
     ->execute();
 
@@ -149,14 +149,14 @@ function xhua_bukuai_install() {
 /**
  * Implements hook_uninstall().
  *
- * @ingroup xhua_bukuai
+ * @ingroup bukuai
  */
-function xhua_bukuai_uninstall() {
+function bukuai_uninstall() {
 }
 
-function xhua_bukuai_schema() {
+function bukuai_schema() {
 
-	$schema['xhua_bukuai_node'] = array(
+	$schema['bukuai_node'] = array(
 		'description' => 'Stores the bukuai single node informations',
 		'fields' => array(
 			'pid'  => array(
@@ -204,7 +204,7 @@ function xhua_bukuai_schema() {
     ),
   );
 
-	$schema['xhua_bukuai_tree'] = array(
+	$schema['bukuai_tree'] = array(
 		'description' => 'Stores the bukuai single node informations',
 		'fields' => array(
 			'pid'  => array(

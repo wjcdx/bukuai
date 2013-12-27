@@ -7,4 +7,4 @@ core: 8.x
 dependencies:
   - block
 files:
-  - xhua_bukuai.test
+  - bukuai.test
