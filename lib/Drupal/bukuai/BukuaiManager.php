@@ -74,10 +74,10 @@ class BukuaiManager {
 
 	private function entry_count($table) {
 		// Read all fields from the table.
-		$query = $this->connection->select($table, 't');
+		$query = $this->connection->select($table, 't', array("return" => \Drupal\Core\Database\Database::RETURN_AFFECTED));
 		$query->fields('t');
 
-		return $query->execute()->rowCount();
+		return count($query->execute());
 	}
 
 	public function node_load($entry = array())
