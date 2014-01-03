@@ -74,7 +74,7 @@ class BukuaiManager {
 
 	private function entry_count($table) {
 		// Read all fields from the table.
-		$query = $this->connection->select($table, 't', array("return" => \Drupal\Core\Database\Database::RETURN_AFFECTED));
+		$query = $this->connection->select($table, 't');
 		$query->fields('t');
 
 		return count($query->execute());
