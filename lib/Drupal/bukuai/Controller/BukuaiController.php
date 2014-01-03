@@ -87,16 +87,18 @@ class BukuaiController implements ContainerInjectionInterface {
 
 			$conds[$field] = $no;
 			$entries = $this->bukuaiManager->tree_load($conds);
-			$tree = $entries[0];
+			$tree = reset($entries);
 
-			$id = $tree->pid;
-			$no = $tree->no;
-			$tree_str = $tree->tree;
+			if ($tree) {
+				$id = $tree->pid;
+				$no = $tree->no;
+				$tree_str = $tree->tree;
 
-			$next = url('split/id/' . $this->bukuaiManager->next_id($id, $count));
+				$next = url('split/id/' . $this->bukuaiManager->next_id($id, $count));
 
-			$tree_ary = $this->bukuaiManager->fmtstr_array($tree_str);
-			$this->bukuaiManager->flat_tree('1', $no, $tree_ary, $parts);
+				$tree_ary = $this->bukuaiManager->fmtstr_array($tree_str);
+				$this->bukuaiManager->flat_tree('1', $no, $tree_ary, $parts);
+			}
 		}
 
 		$page = array(
